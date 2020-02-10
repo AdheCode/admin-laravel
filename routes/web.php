@@ -24,9 +24,15 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['middleware' => ['auth']], function(){
 	Route::get('/admin/dashboard', 'AdminController@dashboard');
+	Route::get('/admin/settings', 'AdminController@settings');
+	Route::get('/admin/check-pwd', 'AdminController@chkPassword');
+	Route::match(['get', 'post'], '/admin/update-pwd', 'AdminController@updatePassword');
+
+	//Categories Routes (Admin)
+	Route::match(['get', 'post'], '/admin/add-category', 'CategoryController@addCategory');
 });
 
 
 Route::get('/logout', 'AdminController@logout');
 
-//#6 Make Admin Panel in Laravel 5.6 | Set Admin Dashboard | Header | Footer
+//#12 Make E-commerce website in Laravel 5.6 | #12 Admin Panel | Categories | Migrations | CRUD

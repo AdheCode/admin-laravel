@@ -1,9 +1,54 @@
 
 $(document).ready(function(){
+
+	$("#new_pwd").click(function(){
+		var current_pwd = $("#current_pwd").val();
+		$.ajax({
+			type:'get',
+			url:'/admin/check-pwd',
+			data:{current_pwd:current_pwd},
+			success:function(resp){
+				// alert(resp);
+				if (resp == 'false') {
+					$('#pwdChk').html("<font color='red'>Current Password is Incorrect</font>");
+					$("#current_pwd").parents('.control-group').removeClass('success');
+					$("#current_pwd").parents('.control-group').addClass('error');
+				} else if (resp == 'true') {
+					$('#pwdChk').html("<font color='green'>Current Password is Correct</font>");
+				}
+			}, error:function(){
+				alert("Error");
+			}
+		});
+	});
 	
 	$('input[type=checkbox],input[type=radio],input[type=file]').uniform();
 	
 	$('select').select2();
+	
+	// Add Category Validation
+    $("#add_category").validate({
+		rules:{
+			category_name:{
+				required:true
+			},
+			description:{
+				required:true
+			},
+			url:{
+				required:true
+			}
+		},
+		errorClass: "help-inline",
+		errorElement: "span",
+		highlight:function(element, errorClass, validClass) {
+			$(element).parents('.control-group').addClass('error');
+		},
+		unhighlight: function(element, errorClass, validClass) {
+			$(element).parents('.control-group').removeClass('error');
+			$(element).parents('.control-group').addClass('success');
+		}
+	});
 	
 	// Form Validation
     $("#basic_validate").validate({
@@ -63,16 +108,21 @@ $(document).ready(function(){
 	
 	$("#password_validate").validate({
 		rules:{
-			pwd:{
+			current_pwd:{
 				required: true,
 				minlength:6,
 				maxlength:20
 			},
-			pwd2:{
+			new_pwd:{
+				required: true,
+				minlength:6,
+				maxlength:20
+			},
+			confirm_pwd:{
 				required:true,
 				minlength:6,
 				maxlength:20,
-				equalTo:"#pwd"
+				equalTo:"#new_pwd"
 			}
 		},
 		errorClass: "help-inline",
