@@ -30,9 +30,12 @@ Route::group(['middleware' => ['auth']], function(){
 
 	//Categories Routes (Admin)
 	Route::match(['get', 'post'], '/admin/add-category', 'CategoryController@addCategory');
+	Route::match(['get', 'post'], '/admin/edit-category/{id}', 'CategoryController@editCategory');
+	Route::match(['get', 'post'], '/admin/delete-category/{id}', 'CategoryController@deleteCategory');
+	Route::get('/admin/view-categories', 'CategoryController@viewCategories');
 });
 
 
 Route::get('/logout', 'AdminController@logout');
 
-//#12 Make E-commerce website in Laravel 5.6 | #12 Admin Panel | Categories | Migrations | CRUD
+//#17 Admin Panel | Products Section | Laravel Migrations

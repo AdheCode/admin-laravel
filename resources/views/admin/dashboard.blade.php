@@ -300,3 +300,7 @@
 
 <!--end-main-container-part-->
 @endsection
+
+@push('scripts')
+<script src="{{ asset('js/backend_js/matrix.form_validation.js') }}"></script>
+@endpush
