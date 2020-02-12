@@ -33,9 +33,13 @@ Route::group(['middleware' => ['auth']], function(){
 	Route::match(['get', 'post'], '/admin/edit-category/{id}', 'CategoryController@editCategory');
 	Route::match(['get', 'post'], '/admin/delete-category/{id}', 'CategoryController@deleteCategory');
 	Route::get('/admin/view-categories', 'CategoryController@viewCategories');
+
+	//Product
+	Route::match(['get', 'post'], '/admin/add-product', 'ProductsController@addProduct');
+	Route::get('/admin/view-products', 'ProductsController@viewProducts');
 });
 
 
 Route::get('/logout', 'AdminController@logout');
 
-//#17 Admin Panel | Products Section | Laravel Migrations
+//#20 Admin Panel | View Products | Datatables
