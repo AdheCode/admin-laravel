@@ -37,7 +37,7 @@
               <thead>
                 <tr>
                   <th>Products ID</th>
-                  <th>Category ID</th>
+                  <th>Category Name</th>
                   <th>Products Name</th>
                   <th>Products Code</th>
                   <th>Products Color</th>
@@ -50,18 +50,35 @@
               	@foreach($products as $product)
                 <tr class="gradeX">
                   <td>{{ $product->id }}</td>
-                  <td>{{ $product->category_id }}</td>
+                  <td>{{ $product->category_name }}</td>
                   <td>{{ $product->product_name }}</td>
                   <td>{{ $product->product_code }}</td>
                   <td>{{ $product->product_color }}</td>
                   <td>{{ $product->price }}</td>
                   <td>
                     @if(!empty($product->image))
-                    <img src="{{ asset('/images/backend_images/products/small/'.$product->image) }}">
+                    <img width="50" src="{{ asset('/images/backend_images/products/small/'.$product->image) }}">
                     @endif
                   </td>
-                  <td class="center"><a href="{{ url('/admin/edit-product/'.$product->id) }}" class="btn btn-primary btn-mini">Edit</a> <a id="delChat" href="{{ url('/admin/delete-product/'.$product->id) }}" class="btn btn-danger btn-mini">Delete</a></td>
+                  <td class="center"><a href="#myModal{{ $product->id }}" data-toggle="modal" class="btn btn-success btn-mini">View</a> <a href="{{ url('/admin/edit-product/'.$product->id) }}" class="btn btn-primary btn-mini">Edit</a> <a id="delChat" href="{{ url('/admin/delete-product/'.$product->id) }}" class="btn btn-danger btn-mini">Delete</a></td>
                 </tr>
+
+                <div id="myModal{{ $product->id }}" class="modal hide">
+                  <div class="modal-header">
+                    <button data-dismiss="modal" class="close" type="button">×</button>
+                    <h3>{{ $product->product_name }} Full Details</h3>
+                  </div>
+                  <div class="modal-body">
+                    <p>Products ID: {{ $product->id }}</p>
+                    <p>Category Name: {{ $product->category_name }}</p>
+                    <p>Products Name: {{ $product->product_name }}</p>
+                    <p>Products Code: {{ $product->product_code }}</p>
+                    <p>Products Color: {{ $product->product_color }}</p>
+                    <p>Price: {{ $product->price }}</p>
+                    <p>Image</p>
+                  </div>
+                </div>
+
                 @endforeach
               </tbody>
             </table>
@@ -72,11 +89,14 @@
   </div>
 </div>
 
+
+
 @endsection
 
 @push('scripts')
 <script src="{{ asset('js/backend_js/jquery.dataTables.min.js') }}"></script> 
 <script src="{{ asset('js/backend_js/matrix.tables.js') }}"></script> 
+<script src="{{ asset('js/backend_js/matrix.popover.js') }}"></script> 
 <script type="text/javascript">
 $(document).ready(function(){
 

@@ -62,8 +62,35 @@ class ProductsController extends Controller
     	return view('admin.products.add-product')->with(compact('categories_dropdown'));
     }
 
+    public function editProduct (Request $request, $id = null) {
+        $productDetails = Product::where(['id'=>$id])->first();
+
+        $categories = Category::where(['parent_id'=>0])->get();
+        $categories_dropdown = "<option value='' selected disabled>Select</option>";
+        foreach ($categories as $cat) {
+            $categories_dropdown .= "<option value='".$cat->id."' ";
+            $categories_dropdown .= ($productDetails['category_id'] == $cat->id) ? 'selected' : '';
+            $categories_dropdown .= ">".$cat->name."</option>";
+            $sub_categories = Category::where(['parent_id'=> $cat->id])->get();
+            foreach ($sub_categories as $sub_cat) {
+                $categories_dropdown .= "<option value='".$sub_cat->id."' ";
+                $categories_dropdown .= ($productDetails['category_id'] == $sub_cat->id) ? 'selected' : '';
+                $categories_dropdown .= ">&nbsp;--&nbsp;".$sub_cat->name."</option>";
+            }
+        }
+
+        return view('admin.products.edit-product')->with(['productDetails' => $productDetails, 'categories_dropdown' => $categories_dropdown]);
+    }
+
     public function viewProducts () {
         $products = Product::get();
+        $products = json_decode(json_encode($products));
+        foreach ($products as $key => $value) {
+            $category_name = Category::where(['id'=> $value->category_id])->first();
+        // dd($category_name);
+            $products[$key]->category_name = $category_name->name;
+        }
+
         return view('admin.products.view_products')->with(compact('products'));
     }
 }

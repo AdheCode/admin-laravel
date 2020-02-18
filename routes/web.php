@@ -36,10 +36,11 @@ Route::group(['middleware' => ['auth']], function(){
 
 	//Product
 	Route::match(['get', 'post'], '/admin/add-product', 'ProductsController@addProduct');
+	Route::match(['get', 'post'], '/admin/edit-product/{id}', 'ProductsController@editProduct');
 	Route::get('/admin/view-products', 'ProductsController@viewProducts');
 });
 
 
 Route::get('/logout', 'AdminController@logout');
 
-//#20 Admin Panel | View Products | Datatables
+//#11 Make E-commerce website in Laravel 5.6 | #22 Admin Panel | Edit Products
